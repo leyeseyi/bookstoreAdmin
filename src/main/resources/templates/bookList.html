@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+    <head th:replace="common/header :: common-header" />
+
+    <body>
+        <div th:replace="common/header :: navbar" />
+        <div class="container">
+            <div class="table-responsive">
+                <table id ="bookListTable" class = "table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" th:id="selectAllBooks"> </th>
+                            <th> Title </th>
+                            <th> Author </th>
+                            <th> Category </th>
+                            <th> Active ? </th>
+                            <th> Operation </th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-th-each="book: ${bookList}">
+                            <td>
+                                <input hidden name="id" th:value="${book.id}">
+                                <input th:id="'selected'+${book.id}" class="checkboxBook" type="checkbox"/>
+                            </td>
+                            <td><a th:href="@{/book/bookInfo(id=${book.id})}"><span th:text="${book.title}"></span> </a> </td>
+                            <td th:text="${book.author}"> </td>
+                            <td th:text="${book.category}"> </td>
+                            <td th:text="${book.active}"> </td>
+                            <td> delete </td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div th:replace="common/header :: body-bottom-scripts" />
+        <script>
+            $(document).ready(function(){
+                $("#bookListTable").DataTable({
+                   
+                    "ordering": false,
+                    "stateSave": true,
+                    "lengthMenu": [ [5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] ]
+                });
+            });
+        </script>
+    </body>
+</html>
